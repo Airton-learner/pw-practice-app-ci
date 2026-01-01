@@ -13,6 +13,14 @@ export default defineConfig<TestOptions>({
   },
   retries: 1,
   reporter: [
+    process.env.CI ? ['dot'] : ['list'],
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({
+        // Upload to Argos on CI only.
+        uploadToArgos: !!process.env.CI,
+      }),
+    ],
     ['json', {outputFile: 'test-results/jsonReport.json'}],
     ['junit', {outputFile: 'test-results/junitReport.xml'}],
     // ['allure-playwright'],
@@ -25,6 +33,7 @@ export default defineConfig<TestOptions>({
     //   : process.env.STAGING == '1' ? 'http://localhost:4202'
     //   : 'http://localhost:4201',
     trace: 'on-first-retry',
+    screenshot: "only-on-failure",
     // actionTimeout: 5000,
     // navigationTimeout: 5000,
     video: {
