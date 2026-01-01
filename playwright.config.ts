@@ -13,7 +13,6 @@ export default defineConfig<TestOptions>({
   },
   retries: 1,
   reporter: [
-    ['@argos-ci/playwright'],
     ['json', {outputFile: 'test-results/jsonReport.json'}],
     ['junit', {outputFile: 'test-results/junitReport.xml'}],
     // ['allure-playwright'],
